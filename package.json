@@ -1,0 +1,24 @@
+{
+  "name": "mhc-oss-api",
+  "version": "1.0.0",
+  "description": "Api voor het het scrapen van data van de MHC-Oss website",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martijnbrands/MHC-Oss-api.git"
+  },
+  "author": "Martijn Brands",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/martijnbrands/MHC-Oss-api/issues"
+  },
+  "homepage": "https://github.com/martijnbrands/MHC-Oss-api#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "x-ray": "^2.3.3"
+  }
+}
