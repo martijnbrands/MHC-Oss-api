@@ -1,0 +1,41 @@
+{
+  "matches": [
+    {
+      "playTime": "18-11-2018                                15:30",
+      "homeTeam": "Oranje-Rood H3",
+      "awayTeam": "Oss H2"
+    },
+    {
+      "playTime": "24-03-2019",
+      "homeTeam": "Don Quishoot H2",
+      "awayTeam": "Oss H2"
+    },
+    {
+      "playTime": "07-04-2019",
+      "homeTeam": "Oranje-Rood H4",
+      "awayTeam": "Oss H2"
+    },
+    {
+      "playTime": "05-05-2019",
+      "homeTeam": "Geldrop H2",
+      "awayTeam": "Oss H2",
+      "awayUniform": "Reserve tenue"
+    },
+    {
+      "playTime": "19-05-2019",
+      "homeTeam": "Oranje-Rood H6",
+      "awayTeam": "Oss H2"
+    },
+    {
+      "playTime": "02-06-2019",
+      "homeTeam": "Eindhoven H2",
+      "awayTeam": "Oss H2"
+    },
+    {
+      "playTime": "16-06-2019",
+      "homeTeam": "HOD H3",
+      "awayTeam": "Oss H2",
+      "awayUniform": "Reserve tenue"
+    }
+  ]
+}

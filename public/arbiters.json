@@ -1,0 +1,24 @@
+{
+  "arbiters": [
+    {
+      "matchDate": "Zaterdag 17 november",
+      "matchTime": "13:45",
+      "teams": "JA3          –          Liempde JA1",
+      "umpires": "Martijn Brands, Joep de Vet",
+      "field": "Veld: KG3"
+    },
+    {
+      "matchDate": "Zaterdag 24 november",
+      "matchTime": "15:30",
+      "teams": "MA4          –          Den Bosch MA3",
+      "umpires": "Joep van Rooij, Thorold Verwijlen",
+      "field": "Veld: KG3"
+    },
+    {
+      "matchTime": "17:15",
+      "teams": "JB3          –          Dommel JB1",
+      "umpires": "Levi Tulkens, Stan Vos",
+      "field": "Veld: WTR2"
+    }
+  ]
+}

@@ -21,23 +21,19 @@ const x = Xray({
   }
 });
 
-x(
-  "https://www.mhc-oss.nl/index.php?page=Team_Heren2&sid=1",
-  ".game-schedule__day",
-  {
-    matches: x(".is-away-game", [
-      {
-        playTime: ".time | cleanUpText | trim",
-        homeTeam: ".home-team | cleanUpText | trim",
-        awayTeam: ".away-team | cleanUpText | trim",
-        awayUniform: ".away-uniform"
-      }
-    ])
-  }
-).write("public/matches.json");
+x("https://www.mhc-oss.nl/index.php?page=Team_Heren2", ".game-schedule__day", {
+  matches: x(".is-away-game", [
+    {
+      playTime: ".time | cleanUpText | trim",
+      homeTeam: ".home-team | cleanUpText | trim",
+      awayTeam: ".away-team | cleanUpText | trim",
+      awayUniform: ".away-uniform"
+    }
+  ])
+}).write("public/matches.json");
 
 x(
-  "https://www.mhc-oss.nl/index.php?page=Team_Heren2&sid=1",
+  "https://www.mhc-oss.nl/index.php?page=Team_Heren2",
   ".content-block-content",
   {
     arbiters: x(".content-block--arbiter", [
