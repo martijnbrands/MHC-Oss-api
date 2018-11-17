@@ -12,30 +12,68 @@ const x = Xray({
         .replace(")", "")
         .replace("(O", "");
     },
+    urlSplit: function(value) {
+      return value
+      .split('_').pop().split('&')[0];
+    },
     trim: function(value) {
       return typeof value === "string" ? value.trim() : value;
     },
     slice: function(value, start, end) {
       return typeof value === "string" ? value.slice(start, end) : value;
-    }
+    },
+    static: function (value, svalue) {
+      return svalue + value;
+  }
   }
 });
 
-x("https://www.mhc-oss.nl/index.php?page=Team_Heren2", ".game-schedule__day", {
-  matches: x(".is-away-game", [
-    {
-      playTime: ".time | cleanUpText | trim",
-      homeTeam: ".home-team | cleanUpText | trim",
-      awayTeam: ".away-team | cleanUpText | trim",
-      awayUniform: ".away-uniform"
-    }
-  ])
-}).write("public/matches.json");
+app.use(Cors());
 
-x(
-  "https://www.mhc-oss.nl/index.php?page=Team_Heren2",
-  ".content-block-content",
-  {
+
+app.get("/", function(req, res) {
+  res.redirect(301, '/api');
+});
+
+app.get("/api", function(req, res) {
+  res.format({
+    json: function() {
+      res.send({
+        title: "Welkom bij de MHC-Oss-api",
+        description: "Api voor het het scrapen van data van de MHC-Oss website",
+        endpoints: { teams: "/api/teams", team: "/api/teams/ + 'teamId'" },
+        version: "version 1.0",
+        lastUpdate: "17 November 2018"
+      });
+    }
+  });
+});
+
+app.get('/api/teams', function(req, res) {
+  let staticVal = "/api/teams/";
+  let stream = x('https://www.mhc-oss.nl/index.php?page=Teamlijst&teams', '.searchable-team-group-item', [{
+
+    teamName: 'h4',
+    teamId: 'h4 a@href | urlSplit',
+    source: 'h4 a@href | urlSplit | static:"' + staticVal +'"'
+  
+  }]).stream();
+  stream.pipe(res);
+})
+
+app.get('/api/teams/:name', function(req, res) {
+
+  let name = req.params.name;
+
+  let stream = x("https://www.mhc-oss.nl/index.php?page=Team_" + name + "", ".game-schedule__day", {
+    matches: x(".is-away-game", [
+      {
+        playTime: ".time | cleanUpText | trim",
+        homeTeam: ".home-team | cleanUpText | trim",
+        awayTeam: ".away-team | cleanUpText | trim",
+        awayUniform: ".away-uniform"
+      }
+    ]),
     arbiters: x(".content-block--arbiter", [
       {
         matchDate: ".formatted-date-title | cleanUpText",
@@ -45,30 +83,7 @@ x(
         field: ".arbiter-event-item__field"
       }
     ])
-  }
-).write("public/arbiters.json");
-
-app.use(Cors());
-
-app.get("/api/matches", function(req, res) {
-  res.sendFile(__dirname + "/public/matches.json");
-});
-app.get("/api/arbiters", function(req, res) {
-  res.sendFile(__dirname + "/public/arbiters.json");
-});
-
-app.get("/", function(req, res) {
-  res.format({
-    json: function() {
-      res.send({
-        title: "Welkom bij de MHC-Oss-api",
-        description: "Api voor het het scrapen van data van de MHC-Oss website",
-        endpoints: { matches: "/api/matches", arbiters: "/api/arbiters" },
-        version: "version 1.0",
-        lastUpdate: "12 November 2018"
-      });
-    }
-  });
-});
-
+  }).stream();
+  stream.pipe(res);
+})
 app.listen(process.env.PORT || 3001, () => console.log(`Server is running`));
