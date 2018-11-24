@@ -8,9 +8,10 @@ const x = Xray({
     cleanUpText: function(value) {
       return value
         .replace(/(\r\n|\n|\r)/gm, "")
-        .replace("Scheidsrechters: Oss H2 (O) (", "")
+        .replace("Scheidsrechters:", "")
+        .replace("(:", "")
         .replace(")", "")
-        .replace("(O", "");
+        .replace("O", "");
     },
     urlSplit: function(value) {
       return value
