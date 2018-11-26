@@ -9,9 +9,6 @@ const x = Xray({
       return value
         .replace(/(\r\n|\n|\r)/gm, "")
         .replace("Scheidsrechters:", "")
-        .replace("(:", "")
-        .replace(")", "")
-        .replace("O", "");
     },
     urlSplit: function(value) {
       return value
