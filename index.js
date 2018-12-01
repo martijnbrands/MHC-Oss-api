@@ -8,7 +8,10 @@ const x = Xray({
     cleanUpText: function(value) {
       return value
         .replace(/(\r\n|\n|\r)/gm, "")
-        .replace("Scheidsrechters:", "")
+    },
+    cleanNames: function(value) {
+      return value
+      .split('(').pop().split(')')[0];
     },
     urlSplit: function(value) {
       return value
@@ -22,7 +25,7 @@ const x = Xray({
     },
     static: function (value, svalue) {
       return svalue + value;
-  }
+    }
   }
 });
 
@@ -77,7 +80,7 @@ app.get('/api/teams/:name', function(req, res) {
         matchDate: ".formatted-date-title | cleanUpText",
         matchTime: ".arbiter-event-item__time | cleanUpText",
         teams: ".arbiter-event-item__match | cleanUpText | trim",
-        umpires: ".arbiter-event-item__umpires | cleanUpText",
+        umpires: ".arbiter-event-item__umpires | cleanUpText | cleanNames",
         field: ".arbiter-event-item__field"
       }
     ])
