@@ -6,8 +6,7 @@ const app = express();
 const x = Xray({
   filters: {
     cleanUpText: function(value) {
-      return value
-        .replace(/(\r\n|\n|\r)/gm, "")
+      return value.replace(/(\r\n|\n|\r)/gm, "");
     },
     cleanId: function(value) {
       return value
@@ -15,11 +14,15 @@ const x = Xray({
     },
     cleanNames: function(value) {
       return value
-      .split('(').pop().split(')')[0];
+        .split("(")
+        .pop()
+        .split(")")[0];
     },
     urlSplit: function(value) {
       return value
-      .split('_').pop().split('&')[0];
+        .split("_")
+        .pop()
+        .split("&")[0];
     },
     trim: function(value) {
       return typeof value === "string" ? value.trim() : value;
@@ -27,7 +30,7 @@ const x = Xray({
     slice: function(value, start, end) {
       return typeof value === "string" ? value.slice(start, end) : value;
     },
-    static: function (value, svalue) {
+    static: function(value, svalue) {
       return svalue + value;
     }
   }
@@ -35,9 +38,8 @@ const x = Xray({
 
 app.use(Cors());
 
-
 app.get("/", function(req, res) {
-  res.redirect(301, '/api');
+  res.redirect(301, "/api");
 });
 
 app.get("/api", function(req, res) {
@@ -54,20 +56,23 @@ app.get("/api", function(req, res) {
   });
 });
 
-app.get('/api/teams', function(req, res) {
+app.get("/api/teams", function(req, res) {
   let staticVal = "/api/teams/";
-  let stream = x('https://www.mhc-oss.nl/index.php?page=Teamlijst&teams', '.searchable-team-group-item', [{
-
-    teamName: 'h4',
-    teamId: 'h4 a@href | urlSplit',
-    source: 'h4 a@href | urlSplit | static:"' + staticVal +'"'
-  
-  }]).stream();
+  let stream = x(
+    "https://www.mhc-oss.nl/index.php?page=Teamlijst&teams",
+    ".searchable-team-group-item",
+    [
+      {
+        teamName: "h4",
+        teamId: "h4 a@href | urlSplit",
+        source: 'h4 a@href | urlSplit | static:"' + staticVal + '"'
+      }
+    ]
+  ).stream();
   stream.pipe(res);
-})
+});
 
-app.get('/api/teams/:name', function(req, res) {
-
+app.get("/api/teams/:name", function(req, res) {
   let name = req.params.name;
 
   let stream = x("https://www.mhc-oss.nl/index.php?page=Team_" + name + "", ".game-schedule__day", {
@@ -91,5 +96,5 @@ app.get('/api/teams/:name', function(req, res) {
     ])
   }).stream();
   stream.pipe(res);
-})
+});
 app.listen(process.env.PORT || 3001, () => console.log(`Server is running`));
