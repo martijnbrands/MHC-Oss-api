@@ -9,6 +9,10 @@ const x = Xray({
       return value
         .replace(/(\r\n|\n|\r)/gm, "")
     },
+    cleanId: function(value) {
+      return value
+        .replace("Nr. ", "")
+    },
     cleanNames: function(value) {
       return value
       .split('(').pop().split(')')[0];
@@ -69,6 +73,7 @@ app.get('/api/teams/:name', function(req, res) {
   let stream = x("https://www.mhc-oss.nl/index.php?page=Team_" + name + "", ".game-schedule__day", {
     matches: x(".is-away-game", [
       {
+        gameId: ".game-id | cleanUpText | trim | cleanId",
         playTime: ".time | cleanUpText | trim",
         homeTeam: ".home-team | cleanUpText | trim",
         awayTeam: ".away-team | cleanUpText | trim",
