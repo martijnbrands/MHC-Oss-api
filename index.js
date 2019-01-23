@@ -12,6 +12,7 @@ const x = Xray({
       return value.replace(/\s/g, '')
     },
     cleanNames: function (value) {
+
       return value
         .split("(")
         .pop()
