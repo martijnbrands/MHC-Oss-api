@@ -5,28 +5,31 @@ const app = express();
 
 const x = Xray({
   filters: {
-    cleanUpText: function(value) {
+    cleanUpText: function (value) {
       return value.replace(/(\r\n|\n|\r)/gm, "");
     },
-    cleanNames: function(value) {
+    cleanUpDate: function (value) {
+      return value.replace(/\s/g, '')
+    },
+    cleanNames: function (value) {
       return value
         .split("(")
         .pop()
         .split(")")[0];
     },
-    urlSplit: function(value) {
+    urlSplit: function (value) {
       return value
         .split("_")
         .pop()
         .split("&")[0];
     },
-    trim: function(value) {
+    trim: function (value) {
       return typeof value === "string" ? value.trim() : value;
     },
-    slice: function(value, start, end) {
+    slice: function (value, start, end) {
       return typeof value === "string" ? value.slice(start, end) : value;
     },
-    static: function(value, svalue) {
+    static: function (value, svalue) {
       return svalue + value;
     }
   }
@@ -34,13 +37,13 @@ const x = Xray({
 
 app.use(Cors());
 
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   res.redirect(301, "/api");
 });
 
-app.get("/api", function(req, res) {
+app.get("/api", function (req, res) {
   res.format({
-    json: function() {
+    json: function () {
       res.send({
         title: "Welkom bij de MHC-Oss-api",
         description: "Api voor het het scrapen van data van de MHC-Oss website",
@@ -52,7 +55,7 @@ app.get("/api", function(req, res) {
   });
 });
 
-app.get("/api/teams", function(req, res) {
+app.get("/api/teams", function (req, res) {
   let staticVal = "/api/teams/";
   let stream = x(
     "https://www.mhc-oss.nl/index.php?page=Teamlijst&teams",
@@ -68,7 +71,7 @@ app.get("/api/teams", function(req, res) {
   stream.pipe(res);
 });
 
-app.get("/api/teams/:name", function(req, res) {
+app.get("/api/teams/:name", function (req, res) {
   let name = req.params.name;
 
   let stream = x(
@@ -77,7 +80,8 @@ app.get("/api/teams/:name", function(req, res) {
     {
       matches: x(".is-away-game", [
         {
-          playTime: ".time | cleanUpText | trim",
+          playDate: ".time | cleanUpText | trim | slice:0,10",
+          playTime: ".time | cleanUpText | trim | cleanUpDate | slice:10,15",
           homeTeam: ".home-team | cleanUpText | trim",
           awayTeam: ".away-team | cleanUpText | trim",
           awayUniform: ".away-uniform"
