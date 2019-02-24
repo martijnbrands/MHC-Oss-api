@@ -85,6 +85,7 @@ app.get("/api/teams/:name", function (req, res) {
           playTime: ".time | cleanUpText | trim | cleanUpDate | slice:10,15",
           homeTeam: ".home-team | cleanUpText | trim",
           awayTeam: ".away-team | cleanUpText | trim",
+          field: ".field | cleanUpText | trim | slice:5",
           awayUniform: ".away-uniform"
         }
       ]),
