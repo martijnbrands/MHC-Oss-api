@@ -8,6 +8,9 @@ const x = Xray({
     cleanUpText: function (value) {
       return value.replace(/(\r\n|\n|\r)/gm, "");
     },
+    cleanMatchId: function (value) {
+      return value.replace("Nr. ", "");
+    },
     cleanUpDate: function (value) {
       return value.replace(/\s/g, '')
     },
@@ -81,6 +84,7 @@ app.get("/api/teams/:name", function (req, res) {
     {
       matches: x(".is-away-game", [
         {
+          matchId: ".game-id | cleanUpText | cleanMatchId | trim",
           playDate: ".time | cleanUpText | trim | slice:0,10",
           playTime: ".time | cleanUpText | trim | cleanUpDate | slice:10,15",
           homeTeam: ".home-team | cleanUpText | trim",
