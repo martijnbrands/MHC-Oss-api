@@ -100,7 +100,7 @@ app.get("/api/teams/:name", function (req, res) {
           teams: ".arbiter-event-item__match | cleanUpText | trim",
           umpires: ".arbiter-event-item__umpires | cleanUpText | cleanNames",
           location: ".arbiter-event-item__location",
-          field: ".arbiter-event-item__field"
+          field: ".arbiter-event-item__field | cleanUpText | trim | slice:5"
         }
       ])
     }
