@@ -85,8 +85,8 @@ app.get("/api/teams/:name", function (req, res) {
       matches: x(".is-away-game", [
         {
           matchId: ".game-id | cleanUpText | cleanMatchId | trim",
-          playDate: ".time | cleanUpText | trim | slice:0,10",
-          playTime: ".time | cleanUpText | trim | cleanUpDate | slice:10,15",
+          matchDate: ".time | cleanUpText | trim | slice:0,10",
+          matchTime: ".time | cleanUpText | trim | cleanUpDate | slice:10,15",
           homeTeam: ".home-team | cleanUpText | trim",
           awayTeam: ".away-team | cleanUpText | trim",
           field: ".field | cleanUpText | trim | slice:5",
