@@ -82,6 +82,13 @@ app.get("/api/teams/:name", function (req, res) {
     "https://www.mhc-oss.nl/index.php?page=Team_" + name + "",
     ".game-schedule__day",
     {
+      info: x(".teampage-header__info",[
+        {
+          teamName: ".teampage-header__title",
+          teamDescription: ".teampage-header__description | cleanUpText | trim"
+        }
+        
+      ]),
       matches: x(".is-away-game", [
         {
           matchId: ".game-id | cleanUpText | cleanMatchId | trim",
@@ -89,7 +96,7 @@ app.get("/api/teams/:name", function (req, res) {
           matchTime: ".time | cleanUpText | trim | cleanUpDate | slice:10,15",
           homeTeam: ".home-team | cleanUpText | trim",
           awayTeam: ".away-team | cleanUpText | trim",
-          field: ".field | cleanUpText | trim | slice:5",
+          field: ".field | cleanUpText | trim | slice:6",
           awayUniform: ".away-uniform"
         }
       ]),
@@ -100,7 +107,7 @@ app.get("/api/teams/:name", function (req, res) {
           teams: ".arbiter-event-item__match | cleanUpText | trim",
           umpires: ".arbiter-event-item__umpires | cleanUpText | cleanNames",
           location: ".arbiter-event-item__location",
-          field: ".arbiter-event-item__field | cleanUpText | trim | slice:5"
+          field: ".arbiter-event-item__field | cleanUpText | trim | slice:6"
         }
       ])
     }
