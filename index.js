@@ -76,7 +76,8 @@ app.get("/api/teams", function (req, res) {
 });
 
 app.get("/api/teams/:name", function (req, res) {
-  let name = req.params.name;
+  
+  let name = capitalizeFirstLetter(req.params.name);
 
   let stream = x(
     "https://www.mhc-oss.nl/index.php?page=Team_" + name + "",
@@ -115,3 +116,7 @@ app.get("/api/teams/:name", function (req, res) {
   stream.pipe(res);
 });
 app.listen(process.env.PORT || 3001, () => console.log(`Server is running`));
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
