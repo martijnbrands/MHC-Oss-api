@@ -100,7 +100,7 @@ app.get("/api/teams/:name", function (req, res) {
           matchTime: ".time | cleanUpText | trim | cleanUpDate | slice:10,15 | allow_undefined",
           homeTeam: ".home-team | cleanUpText | trim",
           awayTeam: ".away-team | cleanUpText | trim",
-          field: ".field | cleanUpText | trim | slice:6",
+          field: ".field | cleanUpText | trim | slice:6 | allow_undefined",
           awayUniform: ".away-uniform"
         }
       ]),
