@@ -5,8 +5,11 @@ const app = express();
 
 const x = Xray({
   filters: {
-    allow_undefined: function(value=false){
-      return (value) ? value : 'n.n.b'
+    allow_matchTime_undefined: function(value=false){
+      return (value) ? value : '00:00'
+    },
+    allow_field_undefined: function(value=false){
+      return (value) ? value : 'n.n.b.'
     },
     cleanUpText: function (value) {
       return value.replace(/(\r\n|\n|\r)/gm, "");
@@ -97,10 +100,10 @@ app.get("/api/teams/:name", function (req, res) {
         {
           matchId: ".game-id | cleanUpText | cleanMatchId | trim",
           matchDate: ".time | cleanUpText | trim | slice:0,10",
-          matchTime: ".time | cleanUpText | trim | cleanUpDate | slice:10,15 | allow_undefined",
+          matchTime: ".time | cleanUpText | trim | cleanUpDate | slice:10,15 | allow_matchTime_undefined",
           homeTeam: ".home-team | cleanUpText | trim",
           awayTeam: ".away-team | cleanUpText | trim",
-          field: ".field | cleanUpText | trim | slice:6 | allow_undefined",
+          field: ".field | cleanUpText | trim | slice:6 | allow__field_undefined",
           awayUniform: ".away-uniform"
         }
       ]),
