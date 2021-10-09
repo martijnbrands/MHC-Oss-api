@@ -1,15 +1,17 @@
 const express = require("express");
 const Cors = require("cors");
 const Xray = require("x-ray");
+const moment = require("moment");
+
 const app = express();
 
 const x = Xray({
   filters: {
     allow_matchTime_undefined: function(value=false){
-      return (value) ? value : '00:00'
+      return value ? value : '00:00'
     },
     allow_field_undefined: function(value=false){
-      return (value) ? value : 'n.n.b.'
+      return value ? value : 'n.n.b.'
     },
     cleanUpText: function (value) {
       return value.replace(/(\r\n|\n|\r)/gm, "");
@@ -41,6 +43,13 @@ const x = Xray({
     },
     static: function (value, svalue) {
       return svalue + value;
+    },
+    dateTime: function (value) {
+      let date = value.replace(/(\r\n|\n|\r)/gm, "").trim().replace(/\s/g, "").slice(0, 10)
+      let time = value.replace(/(\r\n|\n|\r)/gm, "").trim().replace(/\s/g, "").slice(10, 15)
+      
+      let dateTime = moment(date + " " + time, "DD-MM-YYYY HH:mm");
+      return dateTime
     }
   }
 });
@@ -99,11 +108,10 @@ app.get("/api/teams/:name", function (req, res) {
       matches: x(".is-away-game", [
         {
           matchId: ".game-id | cleanUpText | cleanMatchId | trim",
-          matchDate: ".time | cleanUpText | trim | slice:0,10",
-          matchTime: ".time | cleanUpText | trim | cleanUpDate | slice:10,15 | allow_matchTime_undefined",
+          matchDateTime: ".time | allow_matchTime_undefined | dateTime",
           homeTeam: ".home-team | cleanUpText | trim",
           awayTeam: ".away-team | cleanUpText | trim",
-          field: ".field | cleanUpText | trim | slice:6 | allow_field_undefined",
+          field: ".field | cleanUpText | trim | allow_field_undefined",
           awayUniform: ".away-uniform"
         }
       ]),
@@ -114,7 +122,7 @@ app.get("/api/teams/:name", function (req, res) {
           teams: ".arbiter-event-item__match | cleanUpText | trim",
           umpires: ".arbiter-event-item__umpires | cleanUpText | cleanNames",
           location: ".arbiter-event-item__location",
-          field: ".arbiter-event-item__field | cleanUpText | trim | slice:6"
+          field: ".arbiter-event-item__field | cleanUpText | trim"
         }
       ])
     }

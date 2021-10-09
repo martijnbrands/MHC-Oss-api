@@ -4,7 +4,8 @@
   "description": "Api voor het het scrapen van data van de MHC-Oss website",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,10 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.16.4",
-    "x-ray": "^2.3.3"
+    "moment": "^2.29.1",
+    "x-ray": "^2.3.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
   }
 }
