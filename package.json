@@ -19,7 +19,7 @@
   "homepage": "https://github.com/martijnbrands/MHC-Oss-api#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "moment": "^2.29.1",
     "x-ray": "^2.3.4"
   },
